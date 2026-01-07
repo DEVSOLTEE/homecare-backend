@@ -27,34 +27,35 @@ import { TaskTimeline } from './database/entities/task-timeline.entity';
         }),
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: (configService: ConfigService) => ({
-                type: 'postgres',
-                host: configService.get('DATABASE_HOST'),
-                port: +configService.get('DATABASE_PORT'),
-                username: configService.get('DATABASE_USER'),
-                password: configService.get('DATABASE_PASSWORD'),
-                database: configService.get('DATABASE_NAME'),
-                entities: [
-                    User,
-                    Home,
-                    Category,
-                    Service,
-                    Task,
-                    TaskAssignment,
-                    TaskFile,
-                    TaskReport,
-                    Invoice,
-                    InvoiceItem,
-                    TaskTimeline,
-                ],
-                synchronize: true, // Set to false in production
-                ssl: true,
-                extra: {
+            useFactory: (configService: ConfigService) => {
+                const dbUrl = configService.get<string>('DATABASE_URL');
+                return {
+                    type: 'postgres',
+                    url: dbUrl,
+                    host: !dbUrl ? configService.get<string>('DATABASE_HOST') : undefined,
+                    port: !dbUrl ? +configService.get<number>('DATABASE_PORT') : undefined,
+                    username: !dbUrl ? configService.get<string>('DATABASE_USER') : undefined,
+                    password: !dbUrl ? configService.get<string>('DATABASE_PASSWORD') : undefined,
+                    database: !dbUrl ? configService.get<string>('DATABASE_NAME') : undefined,
+                    entities: [
+                        User,
+                        Home,
+                        Category,
+                        Service,
+                        Task,
+                        TaskAssignment,
+                        TaskFile,
+                        TaskReport,
+                        Invoice,
+                        InvoiceItem,
+                        TaskTimeline,
+                    ],
+                    synchronize: true, // Set to false in production
                     ssl: {
                         rejectUnauthorized: false,
                     },
-                },
-            }),
+                };
+            },
             inject: [ConfigService],
         }),
         AuthModule,
