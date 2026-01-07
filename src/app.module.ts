@@ -29,31 +29,29 @@ import { TaskTimeline } from './database/entities/task-timeline.entity';
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => {
                 const dbUrl = configService.get<string>('DATABASE_URL');
+
+                if (dbUrl) {
+                    console.log('📦 Using DATABASE_URL for connection');
+                    return {
+                        type: 'postgres',
+                        url: dbUrl,
+                        entities: [User, Home, Category, Service, Task, TaskAssignment, TaskFile, TaskReport, Invoice, InvoiceItem, TaskTimeline],
+                        synchronize: true,
+                        ssl: { rejectUnauthorized: false },
+                    };
+                }
+
+                console.log('📦 Using individual DATABASE variables for connection');
                 return {
                     type: 'postgres',
-                    url: dbUrl,
-                    host: !dbUrl ? configService.get<string>('DATABASE_HOST') : undefined,
-                    port: !dbUrl ? +configService.get<number>('DATABASE_PORT') : undefined,
-                    username: !dbUrl ? configService.get<string>('DATABASE_USER') : undefined,
-                    password: !dbUrl ? configService.get<string>('DATABASE_PASSWORD') : undefined,
-                    database: !dbUrl ? configService.get<string>('DATABASE_NAME') : undefined,
-                    entities: [
-                        User,
-                        Home,
-                        Category,
-                        Service,
-                        Task,
-                        TaskAssignment,
-                        TaskFile,
-                        TaskReport,
-                        Invoice,
-                        InvoiceItem,
-                        TaskTimeline,
-                    ],
-                    synchronize: true, // Set to false in production
-                    ssl: {
-                        rejectUnauthorized: false,
-                    },
+                    host: configService.get<string>('DATABASE_HOST'),
+                    port: +configService.get<number>('DATABASE_PORT'),
+                    username: configService.get<string>('DATABASE_USER'),
+                    password: configService.get<string>('DATABASE_PASSWORD'),
+                    database: configService.get<string>('DATABASE_NAME'),
+                    entities: [User, Home, Category, Service, Task, TaskAssignment, TaskFile, TaskReport, Invoice, InvoiceItem, TaskTimeline],
+                    synchronize: true,
+                    ssl: { rejectUnauthorized: false },
                 };
             },
             inject: [ConfigService],
