@@ -30,7 +30,7 @@ import { TaskTimeline } from './database/entities/task-timeline.entity';
             useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
                 host: configService.get('DATABASE_HOST'),
-                port: configService.get('DATABASE_PORT'),
+                port: +configService.get('DATABASE_PORT'),
                 username: configService.get('DATABASE_USER'),
                 password: configService.get('DATABASE_PASSWORD'),
                 database: configService.get('DATABASE_NAME'),
@@ -48,6 +48,12 @@ import { TaskTimeline } from './database/entities/task-timeline.entity';
                     TaskTimeline,
                 ],
                 synchronize: true, // Set to false in production
+                ssl: true,
+                extra: {
+                    ssl: {
+                        rejectUnauthorized: false,
+                    },
+                },
             }),
             inject: [ConfigService],
         }),
