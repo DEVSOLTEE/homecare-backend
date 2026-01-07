@@ -1,0 +1,71 @@
+
+> homecare-backend@1.0.0 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m12:50:02 AM[0m] Starting compilation in watch mode...
+
+[[90m12:50:06 AM[0m] Found 0 errors. Watching for file changes.
+
+(node:26424) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +17ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:07 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +44ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +256ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mServicesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHomesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +266ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/signup, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contractor-signup, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/profile, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/avatar, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTasksController {/tasks}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/assign, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/propose-schedule, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/accept, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/approve-schedule, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/reject-schedule, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/status, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tasks/:id/cancel, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mServicesController {/services}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/services, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/services/categories, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/services/category/:categoryId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/services/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHomesController {/homes}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/homes, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/homes, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/homes/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/homes/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/homes/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/stats, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/users, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/users/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/tasks, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/tasks/:id/assign, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/tasks/:id/unassign, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-contractors, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/verify-contractor/:id, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18700  - [39m01/07/2026, 12:50:08 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +3ms[39m
+🚀 Backend server running on http://localhost:3010

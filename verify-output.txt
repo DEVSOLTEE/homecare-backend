@@ -1,0 +1,38 @@
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +17ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +44ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +151ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTasksModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mServicesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHomesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18504  - [39m01/07/2026, 2:00:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+--- DB vs Disk Verification ---
+Email: contractor@homecare.com
+DB Path: null
+---
+Email: test_curl@example.com
+DB Path: /uploads/identifications/3fd11404105417788e8310010f031627f41.txt
+Disk full path: D:\AHOme\Home\homecare-backend\uploads\identifications\3fd11404105417788e8310010f031627f41.txt
+File Exists on Disk: true
+---
+Email: ant@gmail.com
+DB Path: /uploads/identifications/df77e5595c10781f0e10c0b37f94d7a30c.txt
+Disk full path: D:\AHOme\Home\homecare-backend\uploads\identifications\df77e5595c10781f0e10c0b37f94d7a30c.txt
+File Exists on Disk: true
+---
+
+--- Files in uploads/identifications ---
+3fd11404105417788e8310010f031627f41.txt
+d33e2aa5bd4fb0e3f771ed42f103613f8.txt
+df77e5595c10781f0e10c0b37f94d7a30c.txt
