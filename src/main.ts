@@ -13,15 +13,15 @@ async function bootstrap() {
     console.log(`[Static] Express serving /uploads from: ${uploadsPath}`);
 
     app.enableCors({
-        origin: 'http://localhost:3011',
+        origin: ['http://localhost:3011', process.env.FRONTEND_URL].filter(Boolean),
         credentials: true,
     });
 
     app.useGlobalPipes(new ValidationPipe());
 
-    const port = 3010;
+    const port = process.env.PORT || 3010;
     await app.listen(port);
-    console.log(`🚀 Backend server running on http://localhost:${port}`);
+    console.log(`🚀 Backend server running on port ${port}`);
 }
 
 bootstrap();
