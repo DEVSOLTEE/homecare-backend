@@ -17,8 +17,10 @@ import { Service } from '../database/entities/service.entity';
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
-                secret: configService.get<string>('JWT_SECRET'),
-                signOptions: { expiresIn: configService.get<string>('JWT_EXPIRATION') },
+                secret: configService.get<string>('JWT_SECRET') || 'fallback_secret_keep_it_safe',
+                signOptions: {
+                    expiresIn: configService.get<string>('JWT_EXPIRATION') || '1d'
+                },
             }),
             inject: [ConfigService],
         }),
