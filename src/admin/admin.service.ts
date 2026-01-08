@@ -18,12 +18,13 @@ export class AdminService {
     ) { }
 
     async getAllUsers() {
-        console.log('Fetching all users...');
+        console.log('[ADMIN] Fetching all users...');
         const users = await this.userRepository.find({
-            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'phone', 'identificationPath', 'createdAt'],
             order: { createdAt: 'DESC' },
         });
-        console.log(`Found ${users.length} users. User 0 isApproved: ${users[0]?.isApproved}`);
+        if (users.length > 0) {
+            console.log(`[ADMIN] Sample user: ${users[0].email}, role: ${users[0].role}, isApproved: ${users[0].isApproved}`);
+        }
         return users;
     }
 
@@ -90,15 +91,13 @@ export class AdminService {
     async updateUser(id: string, data: Partial<User>) {
         await this.userRepository.update(id, data);
         return this.userRepository.findOne({
-            where: { id },
-            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'identificationPath', 'createdAt']
+            where: { id }
         });
     }
 
     async getPendingContractors() {
         return this.userRepository.find({
             where: { role: 'CONTRACTOR' as any, isApproved: false },
-            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'phone', 'identificationPath', 'createdAt'],
             order: { createdAt: 'DESC' },
         });
     }
@@ -115,8 +114,7 @@ export class AdminService {
         });
 
         const updatedUser = await this.userRepository.findOne({
-            where: { id: userId },
-            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'identificationPath']
+            where: { id: userId }
         });
         console.log(`Contractor ${userId} updated. isApproved now: ${updatedUser.isApproved}`);
         return updatedUser;
