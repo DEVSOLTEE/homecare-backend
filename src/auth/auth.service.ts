@@ -65,11 +65,12 @@ export class AuthService {
             for (const userData of users) {
                 let user = await this.userRepository.findOne({ where: { email: userData.email } });
                 if (user) {
-                    console.log(`Updating existing demo user: ${userData.email}`);
-                    Object.assign(user, userData);
-                    await this.userRepository.save(user);
+                    console.log(`[SEED] Updating existing demo user: ${userData.email}`);
+                    const { email, ...updateData } = userData;
+                    await this.userRepository.update(user.id, updateData);
+                    console.log(`[SEED] ${userData.email} updated. isApproved in DB should be true.`);
                 } else {
-                    console.log(`Creating new demo user: ${userData.email}`);
+                    console.log(`[SEED] Creating new demo user: ${userData.email}`);
                     user = this.userRepository.create(userData);
                     await this.userRepository.save(user);
                 }

@@ -18,10 +18,12 @@ export class AdminService {
     ) { }
 
     async getAllUsers() {
+        console.log('Fetching all users...');
         const users = await this.userRepository.find({
             select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'phone', 'identificationPath', 'createdAt'],
             order: { createdAt: 'DESC' },
         });
+        console.log(`Found ${users.length} users. User 0 isApproved: ${users[0]?.isApproved}`);
         return users;
     }
 
@@ -96,25 +98,27 @@ export class AdminService {
     async getPendingContractors() {
         return this.userRepository.find({
             where: { role: 'CONTRACTOR' as any, isApproved: false },
+            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'phone', 'identificationPath', 'createdAt'],
             order: { createdAt: 'DESC' },
         });
     }
 
     async verifyContractor(userId: string, approve: boolean) {
+        console.log(`Verifying contractor ${userId} with approval: ${approve}`);
         const user = await this.userRepository.findOne({ where: { id: userId, role: 'CONTRACTOR' as any } });
         if (!user) throw new NotFoundException('Contractor not found');
 
-        if (approve) {
-            user.isApproved = true;
-            user.isActive = true;
-        } else {
-            // If rejected, we might want to deactivate or just leave it. 
-            // For now, let's keep it simple: approve=true sets isApproved=true.
-            user.isApproved = false;
-            user.isActive = false; // Deactivate if not approved
-        }
+        // Use update() for more reliable persistence of boolean fields
+        await this.userRepository.update(userId, {
+            isApproved: approve,
+            isActive: approve ? true : user.isActive // Only activate if approving
+        });
 
-        await this.userRepository.save(user);
-        return user;
+        const updatedUser = await this.userRepository.findOne({
+            where: { id: userId },
+            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'identificationPath']
+        });
+        console.log(`Contractor ${userId} updated. isApproved now: ${updatedUser.isApproved}`);
+        return updatedUser;
     }
 }
