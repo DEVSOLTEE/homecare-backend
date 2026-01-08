@@ -259,6 +259,4 @@ export class AuthService {
         console.log('Returning updated user:', updated);
         return updated;
     }
-
-}
 }
