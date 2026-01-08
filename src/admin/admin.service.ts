@@ -18,12 +18,22 @@ export class AdminService implements OnModuleInit {
     ) { }
 
     async onModuleInit() {
-        console.log('👷 AdminService: Normalizing user roles in database...');
+        console.log('👷 AdminService: Definitive Data Normalization...');
         try {
+            // Force roles to uppercase
             await this.userRepository.query(`UPDATE users SET role = UPPER(role)`);
-            console.log('✅ Role normalization complete.');
+
+            // Log column names for diagnosis
+            const columns = await this.userRepository.query(`
+                SELECT column_name, data_type 
+                FROM information_schema.columns 
+                WHERE table_name = 'users' AND column_name ILIKE '%approved%';
+            `);
+            console.log('📊 Database columns matching "approved":', JSON.stringify(columns));
+
+            console.log('✅ Data normalization script finished.');
         } catch (error) {
-            console.error('❌ Role normalization failed:', error);
+            console.error('❌ Data normalization failed:', error);
         }
     }
 
@@ -134,22 +144,32 @@ export class AdminService implements OnModuleInit {
     }
 
     async verifyContractor(userId: string, approve: boolean) {
-        console.log(`[ADMIN-FORCE] Setting user ${userId} isApproved to ${approve}`);
+        console.log(`[ADMIN-FINAL] Force SQL update for ${userId} to isApproved=${approve}`);
 
-        // Direct SQL update for maximum reliability
-        await this.userRepository.createQueryBuilder()
-            .update(User)
-            .set({
-                isApproved: approve,
-                isActive: approve ? true : undefined,
-                role: 'CONTRACTOR' as any // Ensure role is standardized
-            })
-            .where("id = :id", { id: userId })
-            .execute();
+        try {
+            // Try updating with double quotes (case sensitive)
+            await this.userRepository.query(
+                `UPDATE users SET "isApproved" = $1, "isActive" = $2, role = 'CONTRACTOR' WHERE id = $3`,
+                [approve, approve ? true : undefined, userId]
+            );
+            console.log(`[ADMIN-FINAL] SQL update with "isApproved" succeeded.`);
+        } catch (e1) {
+            try {
+                // Try updating with lowercase
+                await this.userRepository.query(
+                    `UPDATE users SET isapproved = $1, isactive = $2, role = 'CONTRACTOR' WHERE id = $3`,
+                    [approve, approve ? true : undefined, userId]
+                );
+                console.log(`[ADMIN-FINAL] SQL update with isapproved succeeded.`);
+            } catch (e2) {
+                console.error(`[ADMIN-FINAL] ALL SQL UPDATES FAILED:`, { e1: e1.message, e2: e2.message });
+                // Last ditch: use query builder one more time
+                await this.userRepository.createQueryBuilder().update(User).set({ isApproved: approve }).where("id = :id", { id: userId }).execute();
+            }
+        }
 
         const freshUser = await this.userRepository.findOne({ where: { id: userId } });
         if (freshUser) {
-            console.log(`[ADMIN-FORCE] Verification for ${freshUser.email}: isApproved=${freshUser.isApproved}`);
             return {
                 ...freshUser,
                 isApproved: !!freshUser.isApproved,
