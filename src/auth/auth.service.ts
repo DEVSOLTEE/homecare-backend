@@ -1,17 +1,148 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, OnModuleInit } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User, UserRole } from '../database/entities/user.entity';
+import { Category } from '../database/entities/category.entity';
+import { Service } from '../database/entities/service.entity';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        @InjectRepository(Category)
+        private categoryRepository: Repository<Category>,
+        @InjectRepository(Service)
+        private serviceRepository: Repository<Service>,
         private jwtService: JwtService,
     ) { }
+
+    async onModuleInit() {
+        console.log('🔍 Ensuring demo accounts exist...');
+        await this.seedDemoData();
+    }
+
+    private async seedDemoData() {
+        try {
+            const hashedPassword = await bcrypt.hash('Password123!', 10);
+
+            // Robust seeding: Upsert users
+            const users = [
+                {
+                    email: 'admin@homecare.com',
+                    password: hashedPassword,
+                    firstName: 'Admin',
+                    lastName: 'User',
+                    role: UserRole.ADMIN,
+                    phone: '555-0100',
+                    isApproved: true,
+                    isActive: true,
+                },
+                {
+                    email: 'client@homecare.com',
+                    password: hashedPassword,
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    role: UserRole.CLIENT,
+                    phone: '555-0101',
+                    isApproved: true,
+                    isActive: true,
+                },
+                {
+                    email: 'contractor@homecare.com',
+                    password: hashedPassword,
+                    firstName: 'Mike',
+                    lastName: 'Smith',
+                    role: UserRole.CONTRACTOR,
+                    phone: '555-0102',
+                    isApproved: true,
+                    isActive: true,
+                },
+            ];
+
+            for (const userData of users) {
+                let user = await this.userRepository.findOne({ where: { email: userData.email } });
+                if (user) {
+                    console.log(`Updating existing demo user: ${userData.email}`);
+                    Object.assign(user, userData);
+                    await this.userRepository.save(user);
+                } else {
+                    console.log(`Creating new demo user: ${userData.email}`);
+                    user = this.userRepository.create(userData);
+                    await this.userRepository.save(user);
+                }
+            }
+            console.log('✅ Demo users ensured');
+
+            // Seed Categories (Upsert)
+            const categories = [
+                {
+                    name: 'Standard Services',
+                    description: 'Regular maintenance services',
+                    icon: 'wrench',
+                },
+                {
+                    name: 'Home Maintenance',
+                    description: 'General home upkeep and improvements',
+                    icon: 'home',
+                }
+            ];
+
+            const categoryMap = new Map();
+            for (const catData of categories) {
+                let cat = await this.categoryRepository.findOne({ where: { name: catData.name } });
+                if (cat) {
+                    Object.assign(cat, catData);
+                } else {
+                    cat = this.categoryRepository.create(catData);
+                }
+                cat = await this.categoryRepository.save(cat);
+                categoryMap.set(catData.name, cat.id);
+            }
+            console.log('✅ Categories ensured');
+
+            // Seed/Update Services
+            const services = [
+                {
+                    name: 'AC Maintenance',
+                    categoryId: categoryMap.get('Standard Services'),
+                    description: 'Complete air conditioning system inspection, cleaning, and maintenance',
+                    estimatedDuration: 120,
+                    basePrice: 150,
+                },
+                {
+                    name: 'Water Filter Maintenance',
+                    categoryId: categoryMap.get('Standard Services'),
+                    description: 'Filter replacement and water quality testing',
+                    estimatedDuration: 60,
+                    basePrice: 75,
+                },
+                {
+                    name: 'General Upkeep',
+                    categoryId: categoryMap.get('Home Maintenance'),
+                    description: 'Minor repairs, touch-ups, and general maintenance',
+                    estimatedDuration: 120,
+                    basePrice: 100,
+                },
+            ];
+
+            for (const serviceData of services) {
+                let service = await this.serviceRepository.findOne({ where: { name: serviceData.name } });
+                if (service) {
+                    Object.assign(service, serviceData);
+                } else {
+                    service = this.serviceRepository.create(serviceData);
+                }
+                await this.serviceRepository.save(service);
+            }
+            console.log('✅ Services ensured');
+            console.log('🎉 Production data sync completed!');
+        } catch (error) {
+            console.error('❌ Data sync failed:', error);
+        }
+    }
 
     async signUp(
         email: string,
@@ -126,5 +257,21 @@ export class AuthService {
         const updated = await this.validateUser(userId);
         console.log('Returning updated user:', updated);
         return updated;
+    }
+
+    async getDbStats() {
+        try {
+            const userCount = await this.userRepository.count();
+            const admin = await this.userRepository.findOne({ where: { email: 'admin@homecare.com' } });
+            return {
+                userCount,
+                adminExists: !!admin,
+                adminIsApproved: admin?.isApproved,
+                adminIsActive: admin?.isActive,
+                lastSync: new Date().toISOString()
+            };
+        } catch (error) {
+            return { error: error.message };
+        }
     }
 }

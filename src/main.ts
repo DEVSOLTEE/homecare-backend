@@ -12,8 +12,10 @@ async function bootstrap() {
     app.use('/uploads', express.static(uploadsPath));
     console.log(`[Static] Express serving /uploads from: ${uploadsPath}`);
 
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3011';
     app.enableCors({
-        origin: ['http://localhost:3011', process.env.FRONTEND_URL].filter(Boolean),
+        origin: [frontendUrl, 'http://localhost:3011'],
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
     });
 
