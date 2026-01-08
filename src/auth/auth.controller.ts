@@ -103,13 +103,4 @@ export class AuthController {
         const avatarUrl = `/uploads/${file.filename}`;
         return this.authService.updateAvatar(user.id, avatarUrl);
     }
-
-    @Get('health')
-    async health() {
-        return {
-            status: 'ok',
-            buildTime: '2026-01-08T22:10',
-            db: await this.authService.getDbStats(),
-        };
-    }
 }

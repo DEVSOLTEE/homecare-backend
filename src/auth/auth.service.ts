@@ -259,19 +259,5 @@ export class AuthService {
         return updated;
     }
 
-    async getDbStats() {
-        try {
-            const userCount = await this.userRepository.count();
-            const admin = await this.userRepository.findOne({ where: { email: 'admin@homecare.com' } });
-            return {
-                userCount,
-                adminExists: !!admin,
-                adminIsApproved: admin?.isApproved,
-                adminIsActive: admin?.isActive,
-                lastSync: new Date().toISOString()
-            };
-        } catch (error) {
-            return { error: error.message };
-        }
-    }
+}
 }
