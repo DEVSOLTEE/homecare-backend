@@ -12,16 +12,28 @@ import { TaskTimeline } from '../entities/task-timeline.entity';
 import { TaskFile } from '../entities/task-file.entity';
 import { TaskReport } from '../entities/task-report.entity';
 
-const dataSource = new DataSource({
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: 'postgres',
-    database: 'homecare_db',
-    entities: [User, Category, Service, Home, Task, TaskAssignment, Invoice, InvoiceItem, TaskTimeline, TaskFile, TaskReport],
-    synchronize: true,
-});
+const dbUrl = process.env.DATABASE_URL;
+
+const dataSource = new DataSource(
+    dbUrl
+        ? {
+            type: 'postgres',
+            url: dbUrl,
+            entities: [User, Category, Service, Home, Task, TaskAssignment, Invoice, InvoiceItem, TaskTimeline, TaskFile, TaskReport],
+            synchronize: true,
+            ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+        }
+        : {
+            type: 'postgres',
+            host: 'localhost',
+            port: 5432,
+            username: 'postgres',
+            password: 'postgres',
+            database: 'homecare_db',
+            entities: [User, Category, Service, Home, Task, TaskAssignment, Invoice, InvoiceItem, TaskTimeline, TaskFile, TaskReport],
+            synchronize: true,
+        }
+);
 
 async function seed() {
     await dataSource.initialize();
