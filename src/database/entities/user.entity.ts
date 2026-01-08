@@ -39,13 +39,13 @@ export class User {
     })
     role: UserRole;
 
-    @Column({ default: true })
+    @Column({ type: 'boolean', default: true })
     isActive: boolean;
 
-    @Column({ default: true })
+    @Column({ type: 'boolean', default: false })
     isApproved: boolean;
 
-    @Column({ nullable: true })
+    @Column({ type: 'text', nullable: true })
     identificationPath: string;
 
     @CreateDateColumn()
