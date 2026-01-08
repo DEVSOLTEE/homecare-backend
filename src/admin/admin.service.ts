@@ -22,10 +22,20 @@ export class AdminService {
         const users = await this.userRepository.find({
             order: { createdAt: 'DESC' },
         });
-        if (users.length > 0) {
-            console.log(`[ADMIN] Sample user: ${users[0].email}, role: ${users[0].role}, isApproved: ${users[0].isApproved}`);
+
+        // Normalize for frontend
+        const normalized = users.map(u => ({
+            ...u,
+            role: u.role?.toUpperCase() as any,
+            isApproved: !!u.isApproved,
+            isActive: !!u.isActive
+        }));
+
+        if (normalized.length > 0) {
+            const sample = normalized[0];
+            console.log(`[ADMIN] Normalized sample: ${sample.email}, role: ${sample.role}, approved: ${sample.isApproved}`);
         }
-        return users;
+        return normalized;
     }
 
     async getSystemStats() {
