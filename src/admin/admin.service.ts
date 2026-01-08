@@ -103,23 +103,25 @@ export class AdminService {
     }
 
     async verifyContractor(userId: string, approve: boolean) {
-        console.log(`[ADMIN] Starting verification for user ${userId}. Approval: ${approve}`);
-        const user = await this.userRepository.findOne({ where: { id: userId, role: 'CONTRACTOR' as any } });
-        if (!user) throw new NotFoundException('Contractor not found');
+        console.log(`[ADMIN-FORCE] Setting user ${userId} isApproved to ${approve}`);
 
-        // Modify object and use save() for more reliable persistence
-        user.isApproved = approve;
-        if (approve) {
-            user.isActive = true;
-        }
+        // Use QueryBuilder for direct SQL level update
+        await this.userRepository.createQueryBuilder()
+            .update(User)
+            .set({
+                isApproved: approve,
+                isActive: approve ? true : undefined
+            })
+            .where("id = :id", { id: userId })
+            .execute();
 
-        console.log(`[ADMIN] Pre-save state for ${user.email}: isApproved=${user.isApproved}, isActive=${user.isActive}`);
-        const savedUser = await this.userRepository.save(user);
-
-        // Double check from DB immediately
         const freshUser = await this.userRepository.findOne({ where: { id: userId } });
-        console.log(`[ADMIN] Post-save verification for ${user.email}: isApproved=${freshUser?.isApproved}, isActive=${freshUser?.isActive}`);
+        console.log(`[ADMIN-FORCE] Verification for ${freshUser?.email}: isApproved now ${freshUser?.isApproved}`);
 
         return freshUser;
+    }
+
+    async debugDumpUsers() {
+        return this.userRepository.find();
     }
 }
