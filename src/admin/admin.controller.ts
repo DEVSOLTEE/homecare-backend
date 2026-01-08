@@ -67,4 +67,9 @@ export class AdminController {
     ) {
         return this.adminService.verifyContractor(id, approve);
     }
+    @Get('debug-users')
+    @Roles(UserRole.ADMIN)
+    debugUsers() {
+        return this.adminService.debugDumpUsers();
+    }
 }
