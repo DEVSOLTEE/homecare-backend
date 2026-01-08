@@ -122,6 +122,27 @@ export class AdminService {
     }
 
     async debugDumpUsers() {
-        return this.userRepository.find();
+        const entityManager = this.userRepository.manager;
+
+        try {
+            const [users, schema, rawData] = await Promise.all([
+                this.userRepository.find(),
+                entityManager.query(`
+                    SELECT column_name, data_type, column_default 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'users';
+                `),
+                entityManager.query(`SELECT id, email, role, "isApproved", "isActive" FROM users LIMIT 10;`)
+            ]);
+
+            return {
+                typeormUsers: users,
+                databaseSchema: schema,
+                rawDatabaseData: rawData,
+                serverTimestamp: new Date().toISOString()
+            };
+        } catch (error) {
+            return { error: error.message, stack: error.stack };
+        }
     }
 }
