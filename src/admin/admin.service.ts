@@ -19,7 +19,7 @@ export class AdminService {
 
     async getAllUsers() {
         const users = await this.userRepository.find({
-            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'createdAt'],
+            select: ['id', 'email', 'firstName', 'lastName', 'role', 'isActive', 'isApproved', 'phone', 'identificationPath', 'createdAt'],
             order: { createdAt: 'DESC' },
         });
         return users;
