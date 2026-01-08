@@ -116,28 +116,47 @@ export class AdminService implements OnModuleInit {
     }
 
     async getPendingContractors() {
-        return this.userRepository.find({
-            where: { role: 'CONTRACTOR' as any, isApproved: false },
+        console.log('[ADMIN] Fetching pending contractors...');
+        const users = await this.userRepository.find({
+            where: { isApproved: false }, // Role check handled in filter for robustness
             order: { createdAt: 'DESC' },
         });
+
+        // Normalize and filter for contractors (case-insensitive)
+        return users
+            .filter(u => u.role?.toUpperCase() === 'CONTRACTOR')
+            .map(u => ({
+                ...u,
+                role: 'CONTRACTOR' as any,
+                isApproved: !!u.isApproved,
+                isActive: !!u.isActive
+            }));
     }
 
     async verifyContractor(userId: string, approve: boolean) {
         console.log(`[ADMIN-FORCE] Setting user ${userId} isApproved to ${approve}`);
 
-        // Use QueryBuilder for direct SQL level update
+        // Direct SQL update for maximum reliability
         await this.userRepository.createQueryBuilder()
             .update(User)
             .set({
                 isApproved: approve,
-                isActive: approve ? true : undefined
+                isActive: approve ? true : undefined,
+                role: 'CONTRACTOR' as any // Ensure role is standardized
             })
             .where("id = :id", { id: userId })
             .execute();
 
         const freshUser = await this.userRepository.findOne({ where: { id: userId } });
-        console.log(`[ADMIN-FORCE] Verification for ${freshUser?.email}: isApproved now ${freshUser?.isApproved}`);
-
+        if (freshUser) {
+            console.log(`[ADMIN-FORCE] Verification for ${freshUser.email}: isApproved=${freshUser.isApproved}`);
+            return {
+                ...freshUser,
+                isApproved: !!freshUser.isApproved,
+                isActive: !!freshUser.isActive,
+                role: freshUser.role?.toUpperCase() as any
+            };
+        }
         return freshUser;
     }
 
