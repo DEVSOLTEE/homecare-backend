@@ -1,39 +1,36 @@
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './src/app.module';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from './src/database/entities/user.entity';
-import { Repository } from 'typeorm';
+import { getEntityManagerToken } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
 
-async function checkUser() {
-    console.log('--- Database Diagnostic ---');
+async function checkSchema() {
     const app = await NestFactory.createApplicationContext(AppModule);
-    const userRepository = app.get<Repository<User>>(getRepositoryToken(User));
+    const entityManager = app.get<EntityManager>(getEntityManagerToken());
 
     try {
-        const users = await userRepository.find();
-        console.log(`Found ${users.length} users in database.`);
+        console.log('--- Database Schema Check ---');
+        const schema = await entityManager.query(`
+            SELECT column_name, data_type, column_default 
+            FROM information_schema.columns 
+            WHERE table_name = 'users' AND column_name IN ('isApproved', 'isActive');
+        `);
+        console.log(JSON.stringify(schema, null, 2));
 
-        const admin = await userRepository.findOne({ where: { email: 'admin@homecare.com' } });
-        if (admin) {
-            console.log('✅ Admin user found:');
-            console.log(`   ID: ${admin.id}`);
-            console.log(`   Role: ${admin.role}`);
-            console.log(`   Active: ${admin.isActive}`);
-            console.log(`   Approved: ${admin.isApproved}`);
-        } else {
-            console.log('❌ Admin user NOT found.');
-        }
-
-        const ant = await userRepository.findOne({ where: { email: 'ant@gmail.com' } });
-        if (ant) {
-            console.log('✅ ant@gmail.com found.');
-        }
+        console.log('\n--- Sample Data Check ---');
+        const users = await entityManager.query(`
+            SELECT email, role, "isApproved", "isActive" 
+            FROM users 
+            WHERE role = 'CONTRACTOR' 
+            LIMIT 5;
+        `);
+        console.log(JSON.stringify(users, null, 2));
 
     } catch (error) {
-        console.error('❌ Database connection error:', error.message);
+        console.error('Diagnostic error:', error);
     } finally {
         await app.close();
     }
 }
 
-checkUser();
+checkSchema();

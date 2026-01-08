@@ -63,9 +63,11 @@ export class AdminController {
     @Roles(UserRole.ADMIN)
     verifyContractor(
         @Param('id') id: string,
-        @Body('approve') approve: boolean
+        @Body('approve') approve: any
     ) {
-        return this.adminService.verifyContractor(id, approve);
+        const isApproved = String(approve) === 'true';
+        console.log(`[ADMIN] Controller verify: id=${id}, rawApprove=${approve}, parsed=${isApproved}`);
+        return this.adminService.verifyContractor(id, isApproved);
     }
     @Get('debug-users')
     @Roles(UserRole.ADMIN)
