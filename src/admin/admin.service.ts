@@ -103,20 +103,23 @@ export class AdminService {
     }
 
     async verifyContractor(userId: string, approve: boolean) {
-        console.log(`Verifying contractor ${userId} with approval: ${approve}`);
+        console.log(`[ADMIN] Starting verification for user ${userId}. Approval: ${approve}`);
         const user = await this.userRepository.findOne({ where: { id: userId, role: 'CONTRACTOR' as any } });
         if (!user) throw new NotFoundException('Contractor not found');
 
-        // Use update() for more reliable persistence of boolean fields
-        await this.userRepository.update(userId, {
-            isApproved: approve,
-            isActive: approve ? true : user.isActive // Only activate if approving
-        });
+        // Modify object and use save() for more reliable persistence
+        user.isApproved = approve;
+        if (approve) {
+            user.isActive = true;
+        }
 
-        const updatedUser = await this.userRepository.findOne({
-            where: { id: userId }
-        });
-        console.log(`Contractor ${userId} updated. isApproved now: ${updatedUser.isApproved}`);
-        return updatedUser;
+        console.log(`[ADMIN] Pre-save state for ${user.email}: isApproved=${user.isApproved}, isActive=${user.isActive}`);
+        const savedUser = await this.userRepository.save(user);
+
+        // Double check from DB immediately
+        const freshUser = await this.userRepository.findOne({ where: { id: userId } });
+        console.log(`[ADMIN] Post-save verification for ${user.email}: isApproved=${freshUser?.isApproved}, isActive=${freshUser?.isActive}`);
+
+        return freshUser;
     }
 }
