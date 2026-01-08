@@ -37,7 +37,7 @@ import { TaskTimeline } from './database/entities/task-timeline.entity';
                         url: dbUrl,
                         entities: [User, Home, Category, Service, Task, TaskAssignment, TaskFile, TaskReport, Invoice, InvoiceItem, TaskTimeline],
                         synchronize: true,
-                        ssl: { rejectUnauthorized: false },
+                        ssl: configService.get<string>('DATABASE_SSL') === 'true' ? { rejectUnauthorized: false } : false,
                     };
                 }
 
@@ -51,7 +51,7 @@ import { TaskTimeline } from './database/entities/task-timeline.entity';
                     database: configService.get<string>('DATABASE_NAME'),
                     entities: [User, Home, Category, Service, Task, TaskAssignment, TaskFile, TaskReport, Invoice, InvoiceItem, TaskTimeline],
                     synchronize: true,
-                    ssl: { rejectUnauthorized: false },
+                    ssl: configService.get<string>('DATABASE_SSL') === 'true' ? { rejectUnauthorized: false } : false,
                 };
             },
             inject: [ConfigService],
