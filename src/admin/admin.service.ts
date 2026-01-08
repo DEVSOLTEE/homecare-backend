@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../database/entities/user.entity';
@@ -7,7 +7,7 @@ import { Service } from '../database/entities/service.entity';
 import { TaskAssignment } from '../database/entities/task-assignment.entity';
 
 @Injectable()
-export class AdminService {
+export class AdminService implements OnModuleInit {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
@@ -16,6 +16,16 @@ export class AdminService {
         @InjectRepository(Service)
         private serviceRepository: Repository<Service>,
     ) { }
+
+    async onModuleInit() {
+        console.log('👷 AdminService: Normalizing user roles in database...');
+        try {
+            await this.userRepository.query(`UPDATE users SET role = UPPER(role)`);
+            console.log('✅ Role normalization complete.');
+        } catch (error) {
+            console.error('❌ Role normalization failed:', error);
+        }
+    }
 
     async getAllUsers() {
         console.log('[ADMIN] Fetching all users...');
