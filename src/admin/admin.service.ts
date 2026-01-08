@@ -20,8 +20,21 @@ export class AdminService implements OnModuleInit {
     async onModuleInit() {
         console.log('👷 AdminService: Definitive Data Normalization...');
         try {
-            // Force roles to uppercase
-            await this.userRepository.query(`UPDATE users SET role = UPPER(role)`);
+            // Force roles to uppercase using text casting for ENUMs
+            // First check if column exists and is castable
+            await this.userRepository.query(`
+                DO $$ 
+                BEGIN 
+                    IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'users' AND column_name = 'role') THEN
+                        UPDATE users SET role = UPPER(role::text)::anyelement WHERE role::text != UPPER(role::text);
+                    END IF;
+                EXCEPTION WHEN OTHERS THEN
+                    -- If complex casting fails, try simple standardized updates
+                    UPDATE users SET role = 'CONTRACTOR' WHERE role::text ILIKE 'contractor';
+                    UPDATE users SET role = 'CLIENT' WHERE role::text ILIKE 'client';
+                    UPDATE users SET role = 'ADMIN' WHERE role::text ILIKE 'admin';
+                END $$;
+            `);
 
             // Log column names for diagnosis
             const columns = await this.userRepository.query(`
@@ -33,7 +46,7 @@ export class AdminService implements OnModuleInit {
 
             console.log('✅ Data normalization script finished.');
         } catch (error) {
-            console.error('❌ Data normalization failed:', error);
+            console.error('❌ Data normalization failed (non-critical):', error.message);
         }
     }
 
